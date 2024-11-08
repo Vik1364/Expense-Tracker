@@ -1,0 +1,73 @@
+#include <iostream>
+#include <map>
+using namespace std;
+
+class ExpenseTracker {
+private:
+    map<string, double> expenses;
+
+public:
+    void addExpense(const string& description, double amount) {
+        expenses[description] += amount;
+        cout << "Added expense: " << description << " - $" << amount << endl;
+    }
+
+    void viewExpenses() {
+        double total = 0;
+        cout << "\nExpense List:" << endl;
+        for (const auto& expense : expenses) {
+            cout << expense.first << ": $" << expense.second << endl;
+            total += expense.second;
+        }
+        cout << "Total Expense: $" << total << endl;
+    }
+
+    void deleteExpense(const string& description) {
+        auto it = expenses.find(description);
+        if (it != expenses.end()) {
+            expenses.erase(it);
+            cout << "Deleted expense: " << description << endl;
+        } else {
+            cout << "Expense not found." << endl;
+        }
+    }
+};
+
+int main() {
+    ExpenseTracker tracker;
+    int choice;
+    string description;
+    double amount;
+
+    do {
+        cout << "\nExpense Tracker Menu:\n";
+        cout << "1. Add Expense\n2. View Expenses\n3. Delete Expense\n4. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter description: ";
+                cin >> description;
+                cout << "Enter amount: ";
+                cin >> amount;
+                tracker.addExpense(description, amount);
+                break;
+            case 2:
+                tracker.viewExpenses();
+                break;
+            case 3:
+                cout << "Enter description to delete: ";
+                cin >> description;
+                tracker.deleteExpense(description);
+                break;
+            case 4:
+                cout << "Exiting Expense Tracker." << endl;
+                break;
+            default:
+                cout << "Invalid choice. Try again." << endl;
+        }
+    } while (choice != 4);
+
+    return 0;
+}
